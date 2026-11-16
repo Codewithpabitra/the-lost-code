@@ -6,7 +6,7 @@ import GameHUD from "../components/game/GameHUD";
 import MissionIntro from "../components/game/MissionIntro";
 import GameButton from "../components/ui/GameButton";
 import { missions } from "../data/missions";
-import { worldRegions } from "../data/world";
+// import { worldRegions } from "../data/world";
 import { useProgress } from "../hooks/useProgress";
 import { useTheme } from "../context/ThemeContext";
 
@@ -148,7 +148,7 @@ export default function Mission() {
     setIsRunning(false);
   };
 
-  const alreadyCompleted = isChapterCompleted(mission.chapterId);
+  // const alreadyCompleted = isChapterCompleted(mission.chapterId);
 
   return (
     <main className="flex h-screen flex-col overflow-hidden bg-slate-50 dark:bg-[#09090b] text-slate-900 dark:text-white">

@@ -3,7 +3,6 @@ import {
   Map,
   BookOpen,
   Trophy,
-  Settings,
   Flame,
   Zap,
   Star,

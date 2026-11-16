@@ -1,6 +1,6 @@
 
 import { motion } from "motion/react";
-import { Gamepad2, LockKeyhole, ArrowRight } from "lucide-react";
+import { Gamepad2, LockKeyhole } from "lucide-react";
 import PixelButton from "../ui/PixelButton";
 
 export default function Hero() {
