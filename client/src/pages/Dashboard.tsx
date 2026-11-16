@@ -13,7 +13,7 @@ export default function Dashboard() {
       <main className="min-h-screen lg:ml-64">
         <DashboardHeader />
 
-        <div className="mx-auto max-w-[1500px] space-y-9 p-5 sm:p-7 lg:p-10">
+        <div className="mx-auto max-w-375 space-y-9 p-5 sm:p-7 lg:p-10">
           <WelcomeSection />
           <StatsGrid />
           <ContinueJourney />
