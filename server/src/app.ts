@@ -5,6 +5,7 @@ import helmet from "helmet";
 
 import healthRoutes from "./routes/health.routes";
 import authRoutes from "./routes/auth.routes";
+import progressRoutes from "./routes/progress.routes";
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/progress", progressRoutes);
 
 export default app;
