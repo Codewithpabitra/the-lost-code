@@ -1,22 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  font-family: Inter, system-ui, sans-serif;
-  color-scheme: dark;
-  background: #09090b;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
-
-* {
-  box-sizing: border-box;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 body {
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.font-pixel {
+  font-family: 'Press Start 2P', cursive;
+}
+
+::selection {
+  background: #2563eb;
+  color: white;
 }
