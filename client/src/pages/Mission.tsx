@@ -79,7 +79,7 @@ function runJavaScript(code: string): Promise<RunResult> {
 export default function Mission() {
   const { chapterId } = useParams();
   const navigate = useNavigate();
-  const { progress, isChapterUnlocked, isChapterCompleted, completeChapter } =
+  const { progress, isChapterUnlocked, completeChapter } =
     useProgress();
 
   const mission = missions.find((item) => item.chapterId === chapterId);
