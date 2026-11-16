@@ -13,13 +13,13 @@ type GameButtonProps = {
 
 const variants = {
   primary:
-    "border-blue-400 bg-blue-600 text-white shadow-[0_4px_0_#123b91] hover:bg-blue-500 active:translate-y-1 active:shadow-none",
+    "border-blue-400 bg-blue-600 text-slate-900 dark:text-white shadow-[0_4px_0_#123b91] hover:bg-blue-500 active:translate-y-1 active:shadow-none",
   secondary:
-    "border-neutral-400/50 bg-neutral-200 text-neutral-900 shadow-[0_4px_0_#a3a3a3] hover:bg-neutral-300 dark:border-white/20 dark:bg-[#202027] dark:text-white dark:shadow-[0_4px_0_#09090b] dark:hover:bg-[#292933]",
+    "border-neutral-400/50 bg-neutral-200 text-neutral-900 shadow-[0_4px_0_#a3a3a3] hover:bg-neutral-300 dark:border-white/20 dark:bg-[#202027] dark:text-slate-900 dark:text-white dark:shadow-[0_4px_0_#09090b] dark:hover:bg-[#292933]",
   ghost:
     "border-transparent bg-blue-500/10 text-blue-600 hover:border-blue-500/40 hover:bg-blue-500/20 dark:text-blue-400",
   danger:
-    "border-red-400 bg-red-600 text-white shadow-[0_4px_0_#991b1b] hover:bg-red-500 active:translate-y-1 active:shadow-none",
+    "border-red-400 bg-red-600 text-slate-900 dark:text-white shadow-[0_4px_0_#991b1b] hover:bg-red-500 active:translate-y-1 active:shadow-none",
 };
 
 const sizes = {

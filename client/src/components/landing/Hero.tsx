@@ -1,18 +1,18 @@
-import { ArrowRight, Gamepad2 } from "lucide-react";
+
+import { motion } from "motion/react";
+import { Gamepad2, LockKeyhole, ArrowRight } from "lucide-react";
+import PixelButton from "../ui/PixelButton";
 
 export default function Hero() {
   return (
-    <section className="relative isolate mx-auto flex min-h-100 max-w-[1600px] items-center overflow-hidden px-6 py-20">
-      {/* Theme-based background artwork */}
-      <div className="absolute inset-0 -z-20">
-        {/* Light mode */}
+    <section className="relative isolate flex min-h-[calc(100svh-76px)] items-center overflow-hidden border-b border-neutral-200 dark:border-white/10">
+      {/* Background artwork */}
+      <div className="absolute inset-0 -z-30">
         <img
           src="/images/hero-world-light.png"
           alt="The Lost Code fantasy world"
           className="block h-full w-full object-cover object-center dark:hidden"
         />
-
-        {/* Dark mode */}
         <img
           src="/images/hero-world-dark.png"
           alt="The Lost Code fantasy world"
@@ -20,44 +20,86 @@ export default function Hero() {
         />
       </div>
 
-      {/* Theme-based overlay */}
-      <div className="absolute inset-0 -z-10 bg-linear-to-r from-white via-white/85 to-white/10 dark:from-[#09090b] dark:via-[#09090b]/80 dark:to-transparent" />
+      {/* Atmospheric overlays */}
+      <div className="absolute inset-0 -z-20 bg-gradient-to-r from-white via-white/90 to-white/20 dark:from-[#09090b] dark:via-[#09090b]/85 dark:to-[#09090b]/20" />
 
-      {/* Hero content */}
-      <div className="relative z-10 max-w-2xl ml-0 sm:ml-20">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-xs sm:text-sm text-blue-600 backdrop-blur-md dark:text-blue-400">
-          <Gamepad2 size={17} />A Coding Adventure Awaits
-        </div>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-white via-transparent to-white/30 dark:from-[#09090b] dark:via-transparent dark:to-[#09090b]/40" />
 
-        <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-neutral-950 sm:text-6xl lg:text-7xl dark:text-white">
-          {"THE WORLD HAS"}
-          <br />
-          {"<"}
-          <span className="text-orange-600 dark:text-orange-600">
-            {"LOST"}
-          </span>{" "}
-          ITS CODE
-          <span>{" />"}</span>
-        </h1>
+      {/* Decorative grid */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.08] dark:opacity-[0.12]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(100,140,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(100,140,255,0.3) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
 
-        <p className="mt-7 max-w-xl text-sm sm:text-lg leading-8 text-neutral-700 dark:text-neutral-300">
-          A mysterious world. A broken system. And you — the only one who can
-          restore it, one line of JavaScript at a time.
-        </p>
+      <div className="mx-auto grid w-full max-w-[1600px] items-center gap-14 px-5 py-20 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:px-16">
+        {/* Main title */}
+        <motion.div
+          initial={{ opacity: 0, x: -45 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-3xl"
+        >
+          <div className="mb-8 inline-flex items-center gap-3 rounded-lg border border-blue-500/30 bg-blue-500/10 px-4 py-3 backdrop-blur-md">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+            </span>
+            <span className="font-pixel text-[8px] tracking-wider text-blue-600 dark:text-blue-400">
+              A NEW ADVENTURE AWAITS
+            </span>
+          </div>
 
-        <div className="mt-10 flex flex-wrap gap-4">
-          <button className="group flex items-center gap-3 rounded-lg bg-blue-600 px-4 sm:px-6 py-4 font-semibold text-white transition hover:bg-blue-500 cursor-pointer">
-            Start Your Adventure
-            <ArrowRight
-              size={18}
-              className="transition group-hover:translate-x-1"
-            />
-          </button>
+          <p className="mb-5 text-xs font-bold tracking-[0.35em] text-neutral-500 dark:text-white/50">
+            [ THE LEGEND OF THE LOST WORLD ]
+          </p>
 
-          <button className="rounded-lg border border-neutral-300 bg-transparent px-4 sm:px-6 py-4 font-semibold text-neutral-800 backdrop-blur-md transition hover:border-blue-500 dark:border-white/20 dark:bg-transparent dark:text-white cursor-pointer">
-            Explore the Story
-          </button>
-        </div>
+          <h1 className="font-pixel text-3xl leading-[1.8] tracking-tight text-neutral-950 sm:text-5xl sm:leading-[1.7] lg:text-6xl dark:text-white">
+            THE WORLD
+            <br />
+            HAS{" "}
+            <span className="text-orange-600 drop-shadow-[0_0_25px_rgba(249,115,22,0.3)] dark:text-orange-500">
+              LOST
+            </span>
+            <br />
+            ITS CODE<span className="text-blue-500">.</span>
+          </h1>
+
+          <p className="mt-8 max-w-xl text-sm leading-8 text-neutral-700 sm:text-base dark:text-neutral-300">
+            An ancient world. A broken system. Forgotten lines of code.
+            Become the developer who restores it, one JavaScript challenge
+            at a time.
+          </p>
+
+          {/* Game actions */}
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-6">
+            <PixelButton
+              variant="primary"
+              size="lg"
+              icon={<Gamepad2 size={20} />}
+              iconPosition="left"
+            >
+              START NEW GAME
+            </PixelButton>
+
+            <PixelButton
+              variant="secondary"
+              size="lg"
+              icon={<LockKeyhole size={17} />}
+              iconPosition="left"
+            >
+              EXPLORE WORLD
+            </PixelButton>
+          </div>
+
+          <div className="mt-12 flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] text-neutral-500 dark:text-white/40">
+            <span className="h-px w-8 bg-blue-500" />
+            YOUR JOURNEY STARTS HERE
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+
 import {
   ArrowRight,
   CheckCircle2,
@@ -8,6 +9,7 @@ import {
 } from "lucide-react";
 import type { Chapter, WorldRegion as WorldRegionType } from "../../data/world";
 import GameButton from "../ui/GameButton";
+import { useNavigate } from "react-router-dom";
 
 interface RegionInfoProps {
   region: WorldRegionType;
@@ -20,6 +22,8 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
   const completedCount = region.chapters.filter(
     (item) => item.status === "completed",
   ).length;
+
+  const navigate = useNavigate();
 
   const actionTitle = isRegionLocked
     ? "REGION LOCKED"
@@ -48,6 +52,7 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
               <MapPin size={12} />
               REGION INTEL
             </span>
+
             {isRegionLocked ? (
               <Lock size={16} className="text-white/60" />
             ) : (
@@ -56,7 +61,9 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
           </div>
 
           <h2 className="mt-5 font-pixel text-sm leading-7">{region.name}</h2>
+
           <p className="mt-2 text-sm text-white/60">{region.subtitle}</p>
+
           <p className="mt-5 text-sm leading-6 text-white/75">
             {region.description}
           </p>
@@ -73,6 +80,7 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
               {region.progress}%
             </span>
           </div>
+
           <div className="h-2 overflow-hidden rounded-full bg-neutral-200 dark:bg-white/10">
             <div
               className="h-full rounded-full transition-all"
@@ -85,13 +93,14 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3 dark:border-white/10 dark:bg-white/3">
+          <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3 dark:border-white/10 dark:bg-white/[0.03]">
             <div className="flex items-center gap-2 text-neutral-500 dark:text-neutral-400">
               <Trophy size={14} />
               <span className="text-[9px] font-bold tracking-wider">
                 CHAPTERS
               </span>
             </div>
+
             <p className="mt-2 text-xl font-bold text-neutral-900 dark:text-white">
               {completedCount}
               <span className="text-sm text-neutral-400">
@@ -100,11 +109,12 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
             </p>
           </div>
 
-          <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3 dark:border-white/10 dark:bg-white/3">
+          <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3 dark:border-white/10 dark:bg-white/[0.03]">
             <div className="flex items-center gap-2 text-neutral-500 dark:text-neutral-400">
               <Star size={14} />
               <span className="text-[9px] font-bold tracking-wider">XP</span>
             </div>
+
             <p className="mt-2 text-xl font-bold text-neutral-900 dark:text-white">
               {region.chapters
                 .filter((item) => item.status === "completed")
@@ -118,6 +128,7 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
             <span className="text-[10px] font-bold tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
               SELECTED CHAPTER
             </span>
+
             {chapter && (
               <span className="text-[10px] font-bold text-neutral-400">
                 CH. {chapter.number}
@@ -130,6 +141,7 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
               <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
                 {chapter.title}
               </h3>
+
               <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
                 {chapter.status === "completed"
                   ? "You've restored this part of the world."
@@ -138,10 +150,11 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
                     : "Complete earlier chapters to unlock this checkpoint."}
               </p>
 
-              <div className="mt-4 flex items-center justify-between rounded-xl bg-neutral-100 p-3 dark:bg-white/4">
+              <div className="mt-4 flex items-center justify-between rounded-xl bg-neutral-100 p-3 dark:bg-white/[0.04]">
                 <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400">
                   Chapter reward
                 </span>
+
                 <span className="flex items-center gap-1 text-sm font-bold text-amber-500">
                   <Star size={14} fill="currentColor" />
                   {chapter.xp} XP
@@ -158,8 +171,9 @@ export default function RegionInfo({ region, chapter }: RegionInfoProps) {
             <GameButton
               title={actionTitle}
               onClick={() => {
-                if (isRegionLocked || isChapterLocked || !chapter) return;
-                console.log("Selected chapter:", chapter.id);
+                if (chapter && !isChapterLocked && !isRegionLocked) {
+                  navigate(`/mission/${chapter.id}`);
+                }
               }}
               icon={
                 isRegionLocked || isChapterLocked ? (

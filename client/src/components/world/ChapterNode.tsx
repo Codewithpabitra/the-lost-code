@@ -1,4 +1,3 @@
-
 import { Check, Lock, Play, Star } from "lucide-react";
 import type { Chapter } from "../../data/world";
 
@@ -45,11 +44,7 @@ export default function ChapterNode({
                 : "border-white"
         }`}
         style={{
-          background: isCompleted
-            ? "#047857"
-            : isLocked
-              ? "#27272a"
-              : accent,
+          background: isCompleted ? "#047857" : isLocked ? "#27272a" : accent,
           boxShadow: selected
             ? `0 0 0 5px ${accent}35, 0 0 30px ${accent}90`
             : isCompleted

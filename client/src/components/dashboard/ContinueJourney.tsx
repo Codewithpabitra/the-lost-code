@@ -37,7 +37,7 @@ export default function ContinueJourney() {
         </div>
       </div>
 
-      <div className="relative flex min-h-64 items-center justify-center overflow-hidden bg-[#080d20] p-8 text-white">
+      <div className="relative flex min-h-64 items-center justify-center overflow-hidden bg-[#080d20] p-8 text-slate-900 dark:text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1d4ed8_0%,transparent_65%)] opacity-30" />
 
         <div className="relative flex flex-col items-center gap-4">

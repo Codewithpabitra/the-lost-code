@@ -26,7 +26,7 @@ export default function MissionCard({
   if (completed) Icon = <Check size={21} />;
 
   return (
-    <article className="group flex flex-col gap-5 border border-neutral-200 bg-white p-5 transition hover:border-blue-500/40 dark:border-white/10 dark:bg-[#111119] sm:flex-row sm:items-center">
+    <article className="group flex flex-col gap-5 border border-neutral-200 bg-white p-5 transition hover:border-blue-500/40 dark:border-slate-200 dark:border-white/10 dark:bg-[#111119] sm:flex-row sm:items-center">
       <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-blue-500/30 bg-blue-500/10 text-blue-500">
         {Icon}
       </div>
@@ -61,9 +61,7 @@ export default function MissionCard({
       </div>
 
       <div className="flex items-center justify-between gap-4 sm:flex-col sm:items-end">
-        <span className="font-pixel text-[8px] text-amber-500">
-          +{xp} XP
-        </span>
+        <span className="font-pixel text-[8px] text-amber-500">+{xp} XP</span>
 
         {!locked && (
           <GameButton

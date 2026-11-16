@@ -26,7 +26,7 @@ export default function WorldMap({
   onChapterSelect,
 }: WorldMapProps) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#080d1c] shadow-2xl">
+    <div className="relative overflow-hidden rounded-3xl border border-neutral-200 bg-[#080d1c] shadow-2xl dark:border-white/10">
       {/* Background atmosphere */}
       <div
         className="absolute inset-0"
@@ -64,10 +64,12 @@ export default function WorldMap({
             <Compass size={13} />
             WORLD NAVIGATION SYSTEM
           </div>
+
           <p className="mt-2 text-xs text-white/50">
             Select a region to explore its chapters
           </p>
         </div>
+
         <span className="rounded-md border border-blue-300/20 bg-blue-300/10 px-3 py-2 font-pixel text-[8px] text-blue-200">
           MAP 001
         </span>
@@ -93,14 +95,17 @@ export default function WorldMap({
         <span className="text-[9px] font-bold tracking-[0.2em] text-white/40">
           LEGEND
         </span>
+
         <div className="flex items-center gap-2 text-[10px] font-semibold text-white/70">
           <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
           Completed
         </div>
+
         <div className="flex items-center gap-2 text-[10px] font-semibold text-white/70">
           <span className="h-2.5 w-2.5 rounded-full bg-blue-400" />
           Available
         </div>
+
         <div className="flex items-center gap-2 text-[10px] font-semibold text-white/70">
           <span className="h-2.5 w-2.5 rounded-full bg-zinc-500" />
           Locked

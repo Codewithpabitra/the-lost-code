@@ -1,4 +1,3 @@
-
 import { Lock, MapPin } from "lucide-react";
 import type { WorldRegion as WorldRegionType } from "../../data/world";
 import ChapterNode from "./ChapterNode";
@@ -80,9 +79,11 @@ export default function WorldRegion({
             <MapPin size={11} />
             REGION {region.id.toUpperCase()}
           </div>
+
           <h2 className="mt-2 font-pixel text-[10px] leading-5 text-white drop-shadow-lg sm:text-xs">
             {region.name}
           </h2>
+
           <p className="mt-1 text-xs font-semibold text-white/60">
             {region.subtitle}
           </p>
@@ -101,6 +102,7 @@ export default function WorldRegion({
             <span>RESTORATION</span>
             <span>{region.progress}%</span>
           </div>
+
           <div className="h-1.5 overflow-hidden rounded-full bg-black/40">
             <div
               className="h-full rounded-full transition-all"

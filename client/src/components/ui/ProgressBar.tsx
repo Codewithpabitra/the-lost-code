@@ -13,7 +13,7 @@ export default function ProgressBar({
 
   return (
     <div
-      className={`h-2.5 overflow-hidden border border-neutral-300 bg-neutral-200 dark:border-white/10 dark:bg-[#08080b] ${className}`}
+      className={`h-2.5 overflow-hidden border border-neutral-300 bg-neutral-200 dark:border-slate-200 dark:border-white/10 dark:bg-[#08080b] ${className}`}
     >
       <div
         className={`h-full bg-blue-500 transition-all duration-500 ${

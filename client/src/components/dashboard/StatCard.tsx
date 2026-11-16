@@ -14,7 +14,7 @@ export default function StatCard({
   icon: Icon,
 }: StatCardProps) {
   return (
-    <div className="group relative overflow-hidden border border-neutral-200 bg-white p-5 transition hover:border-blue-500/50 dark:border-white/10 dark:bg-[#111119]">
+    <div className="group relative overflow-hidden border border-neutral-200 bg-white p-5 transition hover:border-blue-500/50 dark:border-slate-200 dark:border-white/10 dark:bg-[#111119]">
       <div className="absolute right-0 top-0 h-20 w-20 translate-x-8 -translate-y-8 bg-blue-500/5 blur-2xl transition group-hover:bg-blue-500/20" />
 
       <div className="relative flex items-start justify-between">

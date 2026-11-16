@@ -7,7 +7,7 @@ import MissionList from "../components/dashboard/MissionList";
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen bg-neutral-100 text-neutral-950 dark:bg-[#09090e] dark:text-white">
+    <div className="min-h-screen bg-neutral-100 text-neutral-950 dark:bg-[#09090e] dark:text-slate-900 dark:text-white">
       <Sidebar />
 
       <main className="min-h-screen lg:ml-64">
