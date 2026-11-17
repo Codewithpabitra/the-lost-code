@@ -1,12 +1,5 @@
-import {
-  LayoutDashboard,
-  Map,
-  BookOpen,
-  Trophy,
-  Flame,
-  Zap,
-  Star,
-} from "lucide-react";
+import { LayoutDashboard, Map, BookOpen, Trophy } from "lucide-react";
+import { apiRequest } from "../lib/api";
 
 export const navigationItems = [
   { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -15,33 +8,25 @@ export const navigationItems = [
   { label: "Achievements", path: "/achievements", icon: Trophy },
 ];
 
-export const stats = [
-  { label: "PLAYER LEVEL", value: "01", detail: "Novice Coder", icon: Star },
-  { label: "TOTAL XP", value: "240", detail: "XP earned", icon: Zap },
-  { label: "DAY STREAK", value: "03", detail: "Days in a row", icon: Flame },
-  { label: "MISSIONS", value: "04/20", detail: "Missions cleared", icon: Trophy },
-];
+export interface DashboardProgress {
+  xp: number;
+  completedChapterIds: string[];
+  unlockedChapterIds: string[];
+  totalCompletedMissions: number;
+  totalChapters: number;
+}
 
-export const missions = [
-  {
-    title: "The First Signal",
-    description: "Discover the mysterious JavaScript transmission.",
-    progress: 100,
-    status: "Completed",
-    xp: 50,
-  },
-  {
-    title: "Awakening the Console",
-    description: "Learn variables and send your first signal.",
-    progress: 60,
-    status: "In Progress",
-    xp: 100,
-  },
-  {
-    title: "The Forgotten Syntax",
-    description: "Restore the broken logic of the ancient system.",
-    progress: 0,
-    status: "Locked",
-    xp: 150,
-  },
-];
+interface DashboardProgressResponse {
+  success: boolean;
+  progress: DashboardProgress;
+}
+
+export async function getDashboardProgress(): Promise<DashboardProgress> {
+  const response = await apiRequest<DashboardProgressResponse>("/progress/me");
+
+  if (!response.success) {
+    throw new Error("Unable to load dashboard progress");
+  }
+
+  return response.progress;
+}

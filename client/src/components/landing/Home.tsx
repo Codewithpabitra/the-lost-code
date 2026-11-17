@@ -1,4 +1,3 @@
-
 import { motion } from "motion/react";
 import {
   ArrowRight,
@@ -10,9 +9,11 @@ import {
   Lock,
   Sparkles,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import Hero from "./Hero";
 import PixelButton from "../ui/PixelButton";
+import { useAuth } from "../../context/AuthContext";
 
 const features = [
   {
@@ -39,6 +40,15 @@ const features = [
 ];
 
 function Home() {
+  const { isAuthenticated, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const handleEnterGame = () => {
+    if (loading) return;
+
+    navigate(isAuthenticated ? "/dashboard" : "/login");
+  };
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-white text-neutral-900 transition-colors duration-300 dark:bg-[#09090b] dark:text-white">
       <Navbar />
@@ -66,8 +76,8 @@ function Home() {
             </h2>
 
             <p className="mt-5 max-w-xl text-sm leading-7 text-neutral-600 dark:text-neutral-400">
-              Every mission brings you closer to mastering the code.
-              Discover what awaits inside this world.
+              Every mission brings you closer to mastering the code. Discover
+              what awaits inside this world.
             </p>
           </div>
 
@@ -153,9 +163,9 @@ function Home() {
             </h2>
 
             <p className="mt-6 max-w-lg text-sm leading-8 text-neutral-600 dark:text-neutral-400">
-              Forgotten regions. Lost knowledge. Hidden challenges.
-              Travel through different worlds and restore the knowledge
-              that once powered this civilization.
+              Forgotten regions. Lost knowledge. Hidden challenges. Travel
+              through different worlds and restore the knowledge that once
+              powered this civilization.
             </p>
 
             <div className="mt-9">
@@ -163,8 +173,14 @@ function Home() {
                 variant="primary"
                 size="lg"
                 icon={<ArrowRight size={16} />}
+                onClick={handleEnterGame}
+                disabled={loading}
               >
-                VIEW THE WORLD MAP
+                {loading
+                  ? "CHECKING SESSION..."
+                  : isAuthenticated
+                    ? "OPEN WORLD MAP"
+                    : "LOGIN TO EXPLORE"}
               </PixelButton>
             </div>
           </div>
@@ -257,8 +273,8 @@ function Home() {
           </h2>
 
           <p className="mx-auto mt-7 max-w-lg text-sm leading-8 text-neutral-600 dark:text-neutral-400">
-            Every great adventure starts with a single line of code.
-            Are you ready to write yours?
+            Every great adventure starts with a single line of code. Are you
+            ready to write yours?
           </p>
 
           <div className="mt-10 flex justify-center">
@@ -266,8 +282,14 @@ function Home() {
               variant="primary"
               size="lg"
               icon={<ArrowRight size={17} />}
+              onClick={handleEnterGame}
+              disabled={loading}
             >
-              ENTER THE WORLD
+              {loading
+                ? "CHECKING SESSION..."
+                : isAuthenticated
+                  ? "CONTINUE YOUR ADVENTURE"
+                  : "ENTER THE WORLD"}
             </PixelButton>
           </div>
         </div>

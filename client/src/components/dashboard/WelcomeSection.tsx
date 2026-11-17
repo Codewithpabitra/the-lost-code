@@ -1,6 +1,10 @@
+
 import { Sparkles } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 export default function WelcomeSection() {
+  const { user } = useAuth();
+
   return (
     <section className="relative overflow-hidden border border-blue-500/20 bg-white p-7 dark:bg-[#101018] lg:p-9">
       <div className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
@@ -8,13 +12,17 @@ export default function WelcomeSection() {
       <div className="relative">
         <div className="mb-5 flex items-center gap-2 text-blue-500">
           <Sparkles size={16} />
-          <span className="font-pixel text-[9px]">YOUR STORY CONTINUES</span>
+          <span className="font-pixel text-[9px]">
+            YOUR STORY CONTINUES
+          </span>
         </div>
 
         <h1 className="max-w-2xl text-4xl font-bold leading-tight tracking-wide sm:text-5xl">
-          THE WORLD IS
+          WELCOME BACK,
           <br />
-          WAITING TO BE <span className="text-blue-500">RESTORED.</span>
+          <span className="text-blue-500">
+            {user?.username || "ADVENTURER"}.
+          </span>
         </h1>
 
         <p className="mt-5 max-w-xl text-lg text-neutral-600 dark:text-neutral-400">

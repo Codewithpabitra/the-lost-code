@@ -1,9 +1,32 @@
-
 import { motion } from "motion/react";
 import { Gamepad2, LockKeyhole } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import PixelButton from "../ui/PixelButton";
 
 export default function Hero() {
+  const { isAuthenticated, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const destination = isAuthenticated ? "/dashboard" : "/login";
+
+  const primaryLabel = loading
+    ? "CHECKING SESSION..."
+    : isAuthenticated
+      ? "CONTINUE GAME"
+      : "START NEW GAME";
+
+  const secondaryLabel = loading
+    ? "PLEASE WAIT"
+    : isAuthenticated
+      ? "OPEN DASHBOARD"
+      : "PLAYER LOGIN";
+
+  const handleNavigation = () => {
+    if (loading) return;
+    navigate(destination);
+  };
+
   return (
     <section className="relative isolate flex min-h-[calc(100svh-76px)] items-center overflow-hidden border-b border-neutral-200 dark:border-white/10">
       {/* Background artwork */}
@@ -48,6 +71,7 @@ export default function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
             </span>
+
             <span className="font-pixel text-[8px] tracking-wider text-blue-600 dark:text-blue-400">
               A NEW ADVENTURE AWAITS
             </span>
@@ -69,9 +93,8 @@ export default function Hero() {
           </h1>
 
           <p className="mt-8 max-w-xl text-sm leading-8 text-neutral-700 sm:text-base dark:text-neutral-300">
-            An ancient world. A broken system. Forgotten lines of code.
-            Become the developer who restores it, one JavaScript challenge
-            at a time.
+            An ancient world. A broken system. Forgotten lines of code. Become
+            the developer who restores it, one JavaScript challenge at a time.
           </p>
 
           {/* Game actions */}
@@ -81,8 +104,9 @@ export default function Hero() {
               size="lg"
               icon={<Gamepad2 size={20} />}
               iconPosition="left"
+              onClick={handleNavigation}
             >
-              START NEW GAME
+              {primaryLabel}
             </PixelButton>
 
             <PixelButton
@@ -90,8 +114,9 @@ export default function Hero() {
               size="lg"
               icon={<LockKeyhole size={17} />}
               iconPosition="left"
+              onClick={handleNavigation}
             >
-              EXPLORE WORLD
+              {secondaryLabel}
             </PixelButton>
           </div>
 

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Terminal,
@@ -9,7 +8,9 @@ import {
   ArrowRight,
   Gamepad2,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import { useAuth } from "../context/AuthContext";
 import PixelButton from "./ui/PixelButton";
 
 const navLinks = [
@@ -20,13 +21,36 @@ const navLinks = [
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const { isAuthenticated, loading } = useAuth();
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const authPath = isAuthenticated ? "/dashboard" : "/login";
+
+  const authLabel = loading
+    ? "CHECKING..."
+    : isAuthenticated
+      ? "OPEN DASHBOARD"
+      : "PLAYER LOGIN";
+
+  const handleAuthNavigation = () => {
+    if (loading) return;
+
+    setMenuOpen(false);
+    navigate(authPath);
+  };
 
   return (
     <nav className="relative z-30 border-b border-neutral-200 bg-white/90 backdrop-blur-xl dark:border-white/10 dark:bg-[#09090b]/90">
       <div className="mx-auto flex min-h-[76px] max-w-[1600px] items-center justify-between px-5 sm:px-8 lg:px-12">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="flex items-center gap-3"
+          aria-label="The Lost Code home"
+        >
           <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-orange-400/40 bg-orange-500 text-white shadow-[0_0_24px_rgba(249,115,22,0.2)]">
             <Terminal size={20} />
           </div>
@@ -34,7 +58,7 @@ export default function Navbar() {
           <p className="font-pixel text-[9px] tracking-tight text-neutral-950 dark:text-white sm:text-[10px]">
             THE LOST CODE
           </p>
-        </div>
+        </button>
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 md:flex">
@@ -52,6 +76,7 @@ export default function Navbar() {
         {/* Actions */}
         <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={toggleTheme}
             aria-label="Toggle theme"
             className="flex h-10 w-10 cursor-pointer items-center justify-center border border-neutral-200 bg-neutral-50 text-neutral-700 transition hover:border-blue-400 hover:text-blue-500 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-blue-400"
@@ -59,14 +84,15 @@ export default function Navbar() {
             {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
           </button>
 
-          {/* Desktop Login */}
+          {/* Desktop Auth Button */}
           <div className="hidden sm:block">
             <PixelButton
               variant="primary"
               size="sm"
               icon={<ArrowRight size={14} />}
+              onClick={handleAuthNavigation}
             >
-              PLAYER LOGIN
+              {authLabel}
             </PixelButton>
           </div>
 
@@ -132,7 +158,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Mobile Login */}
+            {/* Mobile Auth Button */}
             <div className="mt-4 border-t border-neutral-200 pt-4 dark:border-white/10">
               <PixelButton
                 variant="primary"
@@ -140,8 +166,9 @@ export default function Navbar() {
                 icon={<Gamepad2 size={17} />}
                 iconPosition="left"
                 className="w-full"
+                onClick={handleAuthNavigation}
               >
-                PLAYER LOGIN
+                {authLabel}
               </PixelButton>
             </div>
 

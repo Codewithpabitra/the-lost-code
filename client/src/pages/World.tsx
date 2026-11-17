@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
-import { Globe2, Sparkles } from "lucide-react";
+import { Globe2, Sparkles, RefreshCw } from "lucide-react";
+
 import WorldHeader from "../components/world/WorldHeader";
 import WorldMap from "../components/world/WorldMap";
 import RegionInfo from "../components/world/RegionInfo";
@@ -15,7 +16,19 @@ interface WorldSelection {
 }
 
 export default function World() {
-  const { progress, isChapterUnlocked, isChapterCompleted } = useProgress();
+  const {
+    progress,
+    loading,
+    error,
+    isChapterUnlocked,
+    isChapterCompleted,
+    refreshProgress,
+  } = useProgress();
+
+  const [selection, setSelection] = useState<WorldSelection>({
+    regionId: "origin",
+    chapterId: "origin-01",
+  });
 
   const dynamicRegions = worldRegions.map((region) => {
     const chapters = region.chapters.map((chapter) => ({
@@ -41,53 +54,49 @@ export default function World() {
     };
   });
 
-  // Find the first playable region and chapter.
-  const firstUnlockedRegion =
-    dynamicRegions.find((region) => region.status === "unlocked") ??
-    dynamicRegions[0];
+  // Restore the previous selection after server progress has loaded.
+  useEffect(() => {
+    if (loading) return;
 
-  const firstAvailableChapter =
-    firstUnlockedRegion.chapters.find(
-      (chapter) => chapter.status === "current",
-    ) ??
-    firstUnlockedRegion.chapters.find(
-      (chapter) => chapter.status === "completed",
-    ) ??
-    firstUnlockedRegion.chapters[0];
-
-  // Restore the player's previous selection
-  const [selection, setSelection] = useState<WorldSelection>(() => {
     try {
       const saved = localStorage.getItem(WORLD_SELECTION_KEY);
 
-      if (saved) {
-        const parsed: WorldSelection = JSON.parse(saved);
+      if (!saved) return;
 
-        const savedRegion = dynamicRegions.find(
-          (region) => region.id === parsed.regionId,
-        );
+      const parsed: WorldSelection = JSON.parse(saved);
 
-        const savedChapter = savedRegion?.chapters.find(
-          (chapter) => chapter.id === parsed.chapterId,
-        );
+      const savedRegion = dynamicRegions.find(
+        (region) => region.id === parsed.regionId,
+      );
 
-        if (
-          savedRegion?.status === "unlocked" &&
-          savedChapter &&
-          savedChapter.status !== "locked"
-        ) {
-          return parsed;
-        }
+      const savedChapter = savedRegion?.chapters.find(
+        (chapter) => chapter.id === parsed.chapterId,
+      );
+
+      if (
+        savedRegion?.status === "unlocked" &&
+        savedChapter &&
+        savedChapter.status !== "locked"
+      ) {
+        setSelection(parsed);
       }
     } catch {
-      // Use the default selection if saved data is invalid.
+      // Keep the default selection if saved data is invalid.
     }
+    // Restore only after the initial server response.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
-    return {
-      regionId: firstUnlockedRegion.id,
-      chapterId: firstAvailableChapter.id,
-    };
-  });
+  // Persist the selected region and chapter.
+  useEffect(() => {
+    if (loading) return;
+
+    localStorage.setItem(WORLD_SELECTION_KEY, JSON.stringify(selection));
+  }, [selection, loading]);
+
+  const firstUnlockedRegion =
+    dynamicRegions.find((region) => region.status === "unlocked") ??
+    dynamicRegions[0];
 
   const selectedRegion =
     dynamicRegions.find((region) => region.id === selection.regionId) ??
@@ -96,12 +105,12 @@ export default function World() {
   const selectedChapter =
     selectedRegion.chapters.find(
       (chapter) => chapter.id === selection.chapterId,
-    ) ?? firstAvailableChapter;
-
-  // Persist selection whenever the player changes it.
-  useEffect(() => {
-    localStorage.setItem(WORLD_SELECTION_KEY, JSON.stringify(selection));
-  }, [selection]);
+    ) ??
+    selectedRegion.chapters.find((chapter) => chapter.status === "current") ??
+    selectedRegion.chapters.find(
+      (chapter) => chapter.status === "completed",
+    ) ??
+    selectedRegion.chapters[0];
 
   const handleRegionSelect = (regionId: string) => {
     const region = dynamicRegions.find((item) => item.id === regionId);
@@ -137,6 +146,41 @@ export default function World() {
   const unlockedRegions = dynamicRegions.filter(
     (region) => region.status === "unlocked",
   ).length;
+
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-neutral-100 text-neutral-900 dark:bg-[#09090b] dark:text-white">
+        <div className="text-center">
+          <div className="mx-auto mb-5 h-10 w-10 animate-spin rounded-full border-2 border-neutral-300 border-t-blue-500 dark:border-white/10 dark:border-t-blue-400" />
+          <p className="font-pixel text-[10px] tracking-wider text-blue-500">
+            RESTORING WORLD DATA...
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-neutral-100 px-5 text-neutral-900 dark:bg-[#09090b] dark:text-white">
+        <div className="max-w-md border-2 border-red-500/20 bg-white p-7 text-center shadow-[0_5px_0_#d4d4d4] dark:bg-[#11131a] dark:shadow-[0_5px_0_#252a37]">
+          <p className="font-pixel text-xs text-red-500">
+            WORLD CONNECTION FAILED
+          </p>
+          <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">
+            {error}
+          </p>
+          <button
+            onClick={() => void refreshProgress()}
+            className="mt-6 inline-flex items-center gap-2 border-2 border-blue-500 bg-blue-500 px-4 py-3 font-pixel text-[9px] text-white shadow-[0_3px_0_#1d4ed8] transition active:translate-y-[2px] active:shadow-none"
+          >
+            <RefreshCw size={14} />
+            TRY AGAIN
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-neutral-100 px-4 py-5 text-neutral-900 transition-colors dark:bg-[#09090b] dark:text-white sm:px-6 sm:py-7">
@@ -176,14 +220,17 @@ export default function World() {
             </div>
 
             <div className="flex min-w-32 items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 dark:border-white/10 dark:bg-white/4">
-              <Sparkles size={19} className="text-emerald-500" />
+              <Sparkles size={19} className="text-blue-500" />
               <div>
                 <p className="text-[9px] font-bold tracking-widest text-neutral-400">
                   CHAPTERS
                 </p>
                 <p className="mt-1 text-sm font-bold">
                   {completedChapters}
-                  <span className="text-neutral-400"> / 12</span>
+                  <span className="text-neutral-400">
+                    {" "}
+                    / {progress.totalChapters}
+                  </span>
                 </p>
               </div>
             </div>
