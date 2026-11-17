@@ -63,6 +63,75 @@ export const SERVER_MISSIONS: MissionDefinition[] = [
     xp: 250,
     testCases: [{ expectedOutput: "Unlocked", hidden: false }],
   },
+  {
+    chapterId: "syntax-02",
+    title: "The Repetition Rune",
+    xp: 300,
+    testCases: [
+      {
+        expectedOutput:
+          "Crystal 1 activated\nCrystal 2 activated\nCrystal 3 activated\nCrystal 4 activated\nCrystal 5 activated",
+        hidden: false,
+      },
+    ],
+  },
+  {
+    chapterId: "syntax-03",
+    title: "The Function Forge",
+    xp: 350,
+    testCases: [{ expectedOutput: "100", hidden: false }],
+  },
+  {
+    chapterId: "async-01",
+    title: "The Callback Signal",
+    xp: 400,
+    testCases: [
+      {
+        expectedOutput: "Signal sent\nSignal received",
+        hidden: false,
+      },
+    ],
+  },
+  {
+    chapterId: "async-02",
+    title: "The Promise Bridge",
+    xp: 450,
+    testCases: [{ expectedOutput: "Bridge unlocked", hidden: false }],
+  },
+  {
+    chapterId: "async-03",
+    title: "The Async Portal",
+    xp: 500,
+    testCases: [{ expectedOutput: "Portal activated", hidden: false }],
+  },
+  {
+    chapterId: "core-01",
+    title: "The Array Vault",
+    xp: 550,
+    testCases: [
+      {
+        expectedOutput: '4\n["Ruby","Sapphire","Emerald","Diamond"]',
+        hidden: false,
+      },
+    ],
+  },
+  {
+    chapterId: "core-02",
+    title: "The Object Archive",
+    xp: 600,
+    testCases: [
+      {
+        expectedOutput: "Knight\n11\nExcalibur",
+        hidden: false,
+      },
+    ],
+  },
+  {
+    chapterId: "core-03",
+    title: "The Algorithm Trial",
+    xp: 650,
+    testCases: [{ expectedOutput: "2", hidden: false }],
+  },
 ];
 
 const JAVASCRIPT_LANGUAGE_ID = 63;

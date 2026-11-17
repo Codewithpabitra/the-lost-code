@@ -1,3 +1,4 @@
+
 export type ChapterStatus = "completed" | "current" | "locked";
 
 export interface Chapter {
@@ -87,7 +88,7 @@ export const worldRegions: WorldRegion[] = [
       {
         id: "syntax-02",
         number: "05",
-        title: "Looping Forest",
+        title: "The Repetition Rune",
         status: "locked",
         xp: 300,
         position: { x: 49, y: 38 },
@@ -95,7 +96,7 @@ export const worldRegions: WorldRegion[] = [
       {
         id: "syntax-03",
         number: "06",
-        title: "Function Fortress",
+        title: "The Function Forge",
         status: "locked",
         xp: 350,
         position: { x: 80, y: 64 },
@@ -117,7 +118,7 @@ export const worldRegions: WorldRegion[] = [
       {
         id: "async-01",
         number: "07",
-        title: "The Promise Lake",
+        title: "The Callback Signal",
         status: "locked",
         xp: 400,
         position: { x: 18, y: 66 },
@@ -125,7 +126,7 @@ export const worldRegions: WorldRegion[] = [
       {
         id: "async-02",
         number: "08",
-        title: "Awaiting the Unknown",
+        title: "The Promise Bridge",
         status: "locked",
         xp: 450,
         position: { x: 49, y: 38 },
@@ -133,7 +134,7 @@ export const worldRegions: WorldRegion[] = [
       {
         id: "async-03",
         number: "09",
-        title: "The Event Horizon",
+        title: "The Async Portal",
         status: "locked",
         xp: 500,
         position: { x: 80, y: 64 },
@@ -155,25 +156,25 @@ export const worldRegions: WorldRegion[] = [
       {
         id: "core-01",
         number: "10",
-        title: "The Forgotten System",
+        title: "The Array Vault",
         status: "locked",
-        xp: 600,
+        xp: 550,
         position: { x: 18, y: 66 },
       },
       {
         id: "core-02",
         number: "11",
-        title: "The Final Protocol",
+        title: "The Object Archive",
         status: "locked",
-        xp: 750,
+        xp: 600,
         position: { x: 49, y: 38 },
       },
       {
         id: "core-03",
         number: "12",
-        title: "The Lost Code",
+        title: "The Algorithm Trial",
         status: "locked",
-        xp: 1000,
+        xp: 650,
         position: { x: 80, y: 64 },
       },
     ],
