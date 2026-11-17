@@ -11,9 +11,11 @@ import Register from "./pages/Register";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import GuestRoute from "./components/auth/GuestRoute";
 import NotFound from "./pages/NotFound";
+import CookieConsent from "./components/privacy/CookieConsent";
 
 function App() {
   return (
+    <>
     <Routes>
       <Route path="/" element={<Home />} />
 
@@ -32,6 +34,9 @@ function App() {
 
       <Route path="*" element={<NotFound />} />
     </Routes>
+
+    <CookieConsent />
+    </>
   );
 }
 
