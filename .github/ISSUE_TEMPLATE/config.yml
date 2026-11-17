@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 💬 General Questions & Discussions
+    url: https://github.com/Codewithpabitra/the-lost-code/discussions
+    about: Ask questions or discuss ideas about The Lost Code.
+
+  - name: 🔒 Security Vulnerability
+    url: https://github.com/Codewithpabitra/the-lost-code/blob/main/SECURITY.md
+    about: Please read our security policy before reporting vulnerabilities.
