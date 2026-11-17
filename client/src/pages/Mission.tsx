@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
-import { CheckCircle2, Play, RotateCcw, Terminal, XCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  Play,
+  RotateCcw,
+  Terminal,
+  XCircle,
+  Sparkles,
+  Trophy,
+  X,
+} from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import GameHUD from "../components/game/GameHUD";
@@ -10,11 +19,14 @@ import { missions } from "../data/missions";
 import { useProgress } from "../hooks/useProgress";
 import { useTheme } from "../context/ThemeContext";
 import { apiRequest } from "../lib/api";
+import MissionSuccessModal from "../components/game/MissionSuccessModal";
 
 interface RunResult {
   output: string;
   error: string | null;
   message?: string;
+  passedTests?: number;
+  totalTests?: number;
 }
 
 interface SubmitResponse {
@@ -39,6 +51,25 @@ interface SubmitResponse {
   };
 }
 
+const confettiColors = [
+  "#60A5FA",
+  "#FBBF24",
+  "#34D399",
+  "#F472B6",
+  "#A78BFA",
+  "#FB923C",
+  "#F87171",
+];
+
+const confettiPieces = Array.from({ length: 75 }, (_, index) => ({
+  id: index,
+  left: `${(index * 37) % 100}%`,
+  delay: `${(index % 15) * 0.12}s`,
+  duration: `${3 + (index % 5) * 0.5}s`,
+  color: confettiColors[index % confettiColors.length],
+  size: 6 + (index % 7),
+}));
+
 export default function Mission() {
   const { chapterId } = useParams();
   const navigate = useNavigate();
@@ -59,6 +90,7 @@ export default function Mission() {
   const [success, setSuccess] = useState(false);
   const [xpAwarded, setXpAwarded] = useState(0);
   const [alreadyCompleted, setAlreadyCompleted] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const { theme } = useTheme();
 
@@ -68,6 +100,7 @@ export default function Mission() {
     setSuccess(false);
     setXpAwarded(0);
     setAlreadyCompleted(false);
+    setShowSuccessModal(false);
   }, [mission]);
 
   if (!mission) {
@@ -140,6 +173,7 @@ export default function Mission() {
 
     setIsRunning(true);
     setSuccess(false);
+    setShowSuccessModal(false);
     setResult(null);
     setXpAwarded(0);
     setAlreadyCompleted(false);
@@ -153,22 +187,22 @@ export default function Mission() {
         },
       );
 
-      if (!response.success) {
-        throw new Error(response.message || "Mission submission failed");
-      }
+      const evaluation = response.evaluation;
 
       setResult({
-        output: response.evaluation?.output ?? "",
-        error: response.evaluation?.error ?? null,
+        output: evaluation?.output ?? "",
+        error: evaluation?.error ?? null,
         message: response.message,
+        passedTests: evaluation?.passedTests ?? 0,
+        totalTests: evaluation?.totalTests ?? 0,
       });
 
       if (response.completed) {
         setSuccess(true);
         setXpAwarded(response.reward?.xpAwarded ?? 0);
         setAlreadyCompleted(response.alreadyCompleted ?? false);
+        setShowSuccessModal(true);
 
-        // Fetch the latest XP and unlocked chapters from MongoDB.
         await completeChapter(mission.chapterId);
       }
     } catch (err) {
@@ -190,6 +224,7 @@ export default function Mission() {
     setSuccess(false);
     setXpAwarded(0);
     setAlreadyCompleted(false);
+    setShowSuccessModal(false);
   };
 
   return (
@@ -201,7 +236,7 @@ export default function Mission() {
 
       {/* Lesson workspace */}
       <div className="min-h-0 flex-1 overflow-y-auto xl:overflow-hidden">
-        <div className="mx-auto grid min-h-full max-w-[1500px] gap-6 p-4 sm:p-7 xl:h-full xl:min-h-0 xl:grid-cols-[2fr_3fr]">
+        <div className="mx-auto grid min-h-full max-w-375 gap-6 p-4 sm:p-7 xl:h-full xl:min-h-0 xl:grid-cols-[2fr_3fr]">
           {/* LEFT: Lesson */}
           <aside
             className="
@@ -267,7 +302,7 @@ export default function Mission() {
               </span>
 
               <GameButton
-                title={isRunning ? "SUBMITTING..." : "RUN CODE"}
+                title={isRunning ? "CHECKING CODE..." : "RUN CODE"}
                 onClick={handleRun}
                 icon={<Play size={15} fill="currentColor" />}
                 disabled={isRunning || success}
@@ -286,22 +321,50 @@ export default function Mission() {
                 <p className="text-xs text-slate-400 dark:text-white/30">
                   Your program output will appear here...
                 </p>
-              ) : result.error ? (
-                <p className="whitespace-pre-wrap text-xs text-red-400">
-                  {result.error}
-                </p>
               ) : (
-                <>
+                <div className="space-y-3">
                   <pre className="whitespace-pre-wrap text-xs text-emerald-500 dark:text-emerald-400">
                     {result.output || "(No output)"}
                   </pre>
 
-                  {result.message && !success && (
-                    <p className="mt-3 text-xs text-amber-500">
+                  {typeof result.passedTests === "number" &&
+                    typeof result.totalTests === "number" &&
+                    result.totalTests > 0 && (
+                      <div className="flex items-center gap-2 border-t border-white/10 pt-3 text-xs">
+                        <span
+                          className={
+                            result.passedTests === result.totalTests
+                              ? "text-emerald-400"
+                              : "text-amber-400"
+                          }
+                        >
+                          {result.passedTests}/{result.totalTests} tests passed
+                        </span>
+                      </div>
+                    )}
+
+                  {result.error && (
+                    <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-3">
+                      <p className="mb-2 flex items-center gap-2 text-[10px] font-bold tracking-wider text-red-400">
+                        <XCircle size={14} />
+                        ERROR DETAILS
+                      </p>
+                      <pre className="whitespace-pre-wrap text-xs leading-6 text-red-400">
+                        {result.error}
+                      </pre>
+                    </div>
+                  )}
+
+                  {result.message && (
+                    <p
+                      className={`text-xs ${
+                        success ? "text-emerald-400" : "text-amber-500"
+                      }`}
+                    >
                       {result.message}
                     </p>
                   )}
-                </>
+                </div>
               )}
             </div>
 
@@ -335,16 +398,84 @@ export default function Mission() {
               </div>
             )}
 
-            {/* Runtime / submission error */}
+            {/* Failed submission */}
             {result?.error && (
               <div className="flex items-center gap-2 border-t border-red-500/20 bg-red-500/5 p-4 text-xs text-red-400">
                 <XCircle size={15} />
-                Fix the error and try again.
+                Your code could not pass the evaluation. Check the error above
+                and try again.
+              </div>
+            )}
+
+            {/* Incorrect answer without runtime error */}
+            {result && !result.error && !success && (
+              <div className="flex items-center gap-2 border-t border-amber-500/20 bg-amber-500/5 p-4 text-xs text-amber-500">
+                <XCircle size={15} />
+                Your code ran, but the challenge checks were not all passed.
+                Review your output and try again.
               </div>
             )}
           </section>
         </div>
       </div>
+
+      {/* Success confetti */}
+      {showSuccessModal && (
+        <>
+          <style>
+            {`
+              @keyframes mission-confetti-fall {
+                0% {
+                  transform: translate3d(0, -10vh, 0) rotate(0deg);
+                  opacity: 1;
+                }
+                100% {
+                  transform: translate3d(35px, 110vh, 0) rotate(760deg);
+                  opacity: 0;
+                }
+              }
+
+              .mission-confetti-piece {
+                position: absolute;
+                top: -20px;
+                animation-name: mission-confetti-fall;
+                animation-timing-function: linear;
+                animation-fill-mode: forwards;
+              }
+            `}
+          </style>
+
+          <div className="pointer-events-none fixed inset-0 z-90 overflow-hidden">
+            {confettiPieces.map((piece) => (
+              <span
+                key={piece.id}
+                className="mission-confetti-piece"
+                style={{
+                  left: piece.left,
+                  animationDelay: piece.delay,
+                  animationDuration: piece.duration,
+                  backgroundColor: piece.color,
+                  width: `${piece.size}px`,
+                  height: `${piece.size * 1.5}px`,
+                  borderRadius: piece.id % 2 === 0 ? "2px" : "50%",
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Compact success modal */}
+          <MissionSuccessModal
+            isOpen={showSuccessModal}
+            alreadyCompleted={alreadyCompleted}
+            xpAwarded={xpAwarded}
+            onClose={() => setShowSuccessModal(false)}
+            onContinue={() => {
+              setShowSuccessModal(false);
+              navigate("/world");
+            }}
+          />
+        </>
+      )}
     </main>
   );
 }
