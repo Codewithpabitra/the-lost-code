@@ -6,9 +6,9 @@ import {
   RotateCcw,
   Terminal,
   XCircle,
-  Sparkles,
-  Trophy,
-  X,
+  // Sparkles,
+  // Trophy,
+  // X,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 

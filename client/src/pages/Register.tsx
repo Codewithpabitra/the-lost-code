@@ -86,10 +86,10 @@ export default function Register() {
         <ThemeToggle />
       </div>
 
-      <div className="relative z-10 w-full max-w-[460px] pt-12">
+      <div className="relative z-10 w-full max-w-115 pt-12">
         {/* Brand */}
         <div className="mb-8 text-center">
-          <div className="relative mx-auto mb-5 flex h-[76px] w-[76px] items-center justify-center border-2 border-blue-300 bg-blue-600 text-white shadow-[0_5px_0_#1e40af,0_9px_0_#172554]">
+          <div className="relative mx-auto mb-5 flex h-19 w-19 items-center justify-center border-2 border-blue-300 bg-blue-600 text-white shadow-[0_5px_0_#1e40af,0_9px_0_#172554]">
             <Swords size={34} strokeWidth={2.5} />
             <span className="absolute -right-2 -top-2 h-4 w-4 border-2 border-white bg-orange-500 dark:border-[#090b12]" />
           </div>

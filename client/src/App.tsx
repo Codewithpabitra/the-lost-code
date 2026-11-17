@@ -12,6 +12,9 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import GuestRoute from "./components/auth/GuestRoute";
 import NotFound from "./pages/NotFound";
 import CookieConsent from "./components/privacy/CookieConsent";
+import Missions from "./pages/Missions";
+import Achievements from "./pages/Achievements";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -29,7 +32,10 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/world" element={<World />} />
+        <Route path="/missions" element={<Missions />} />
         <Route path="/mission/:chapterId" element={<Mission />} />
+        <Route path="/achievements" element={<Achievements />} />
+        <Route path="/settings" element={<Settings />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

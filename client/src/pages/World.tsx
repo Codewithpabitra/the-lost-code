@@ -172,7 +172,7 @@ export default function World() {
           </p>
           <button
             onClick={() => void refreshProgress()}
-            className="mt-6 inline-flex items-center gap-2 border-2 border-blue-500 bg-blue-500 px-4 py-3 font-pixel text-[9px] text-white shadow-[0_3px_0_#1d4ed8] transition active:translate-y-[2px] active:shadow-none"
+            className="mt-6 inline-flex items-center gap-2 border-2 border-blue-500 bg-blue-500 px-4 py-3 font-pixel text-[9px] text-white shadow-[0_3px_0_#1d4ed8] transition active:translate-y-0.5 active:shadow-none"
           >
             <RefreshCw size={14} />
             TRY AGAIN
