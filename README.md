@@ -233,6 +233,19 @@ Please do not publish sensitive vulnerability details in public issues.
 
 For project-related questions and guidance, see [SUPPORT.md](SUPPORT.md).
 
+## ⭐ Support The Lost Code
+
+If you like **The Lost Code** and appreciate the work behind it:
+
+- ⭐ **Star this repository** to show your support.
+- 📢 **Share the project** with other developers and learners.
+- ☕ **Buy me a coffee** to support my work and help me keep improving the project.
+- 💖 **Interested in sponsoring the project?** Feel free to contact me.
+
+Your support motivates me to keep building and improving The Lost Code!
+
+**Contact:** [GitHub Profile](https://github.com/Codewithpabitra)
+
 ## License and Usage
 
 **The Lost Code is proprietary software. All rights are reserved by the copyright holder.**
